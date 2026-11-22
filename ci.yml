@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  verificar:
+    name: Lint, tipos y pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tipos
+        run: npm run typecheck
+
+      - name: Pruebas
+        run: npm test
+
+      - name: Contratos
+        run: npm run test:contratos
+
+  web:
+    name: Aplicación web (Playwright)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Instalar Chromium para Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Pruebas de la web
+        run: npm run e2e:web
+
+  contratos-en-vivo:
+    name: Contratos contra el prototipo (RabbitMQ y E2E)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Levantar el prototipo
+        run: npm run infra:levantar
+
+      - name: Contratos con el sistema levantado
+        run: npm run test:contratos -- --en-vivo
+
+      - name: Bajar el prototipo
+        if: always() && hashFiles('.env') != ''
+        run: npm run infra:bajar
