@@ -30,6 +30,15 @@ proveedores:
     intervaloConsultaSegEnv: INTERVALO_CONSULTA_RENTADORA_SEG
     intervaloConsultaSeg: 120
 
+  - nombre: trenes-del-sur
+    tipo: tren
+    modo: consulta
+    urlEnv: URL_TRENES_DEL_SUR
+    urlPorDefecto: http://mock-trenes:4008
+    claveApiEnv: CLAVE_API_TRENES_DEL_SUR
+    intervaloConsultaSegEnv: INTERVALO_CONSULTA_TRENES_SEG
+    intervaloConsultaSeg: 120
+
 # Agencias de viaje para derivación de casos (Iteración 7, UC-6; usadas en P2.D3).
 agencias:
   - nombre: viajes-del-plata

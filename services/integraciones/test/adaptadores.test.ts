@@ -166,6 +166,7 @@ describe('Configuración de proveedores (config/proveedores.yaml) y registro ext
       ['aerolinea-andina', 'aerolinea', 'aviso'],
       ['hotel-cordillera', 'hotel', 'consulta'],
       ['rentadora-sur', 'rentadora', 'consulta'],
+      ['trenes-del-sur', 'tren', 'consulta'],
     ]);
     expect(cfg.proveedores[0]?.url).toBe('http://127.0.0.1:4103');
     expect(cfg.proveedores[1]?.intervaloConsultaMs).toBe(45_000);
@@ -174,11 +175,12 @@ describe('Configuración de proveedores (config/proveedores.yaml) y registro ext
     expect(cfg.redes[0]?.nombre).toBe('redsocial');
 
     const registro = crearRegistroAdaptadoresProveedores({ proveedores: cfg.proveedores });
-    expect(registro.listar()).toHaveLength(3);
+    expect(registro.listar()).toHaveLength(4);
     expect(registro.listarPorModo('aviso').map((a) => a.nombre)).toEqual(['aerolinea-andina']);
     expect(registro.listarPorModo('consulta').map((a) => a.nombre)).toEqual([
       'hotel-cordillera',
       'rentadora-sur',
+      'trenes-del-sur',
     ]);
   });
 

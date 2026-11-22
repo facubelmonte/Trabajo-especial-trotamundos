@@ -8,6 +8,7 @@ import { crearAdaptadorAgencia, type AdaptadorAgencia } from './agencia.ts';
 import { crearAdaptadorHotel } from './hotel.ts';
 import { crearAdaptadorRedSocial, type AdaptadorRedSocial } from './redsocial.ts';
 import { crearAdaptadorRentadora } from './rentadora.ts';
+import { crearAdaptadorTren } from './tren.ts';
 import type { AdaptadorProveedorViaje } from './tipos.ts';
 
 export interface ContextoFabricaAdaptador {
@@ -49,6 +50,14 @@ export const FABRICAS_PROVEEDORES_DEFECTO: Record<string, FabricaAdaptadorProvee
     }),
   rentadora: (cfg, ctx) =>
     crearAdaptadorRentadora({
+      nombre: cfg.nombre,
+      url: cfg.url,
+      claveApi: cfg.claveApi,
+      intervaloConsultaMs: cfg.intervaloConsultaMs,
+      ...(ctx.fetch ? { fetch: ctx.fetch } : {}),
+    }),
+  tren: (cfg, ctx) =>
+    crearAdaptadorTren({
       nombre: cfg.nombre,
       url: cfg.url,
       claveApi: cfg.claveApi,
