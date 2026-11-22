@@ -18,7 +18,7 @@
     "format": "prettier --write .",
     "typecheck": "tsc -p tsconfig.json && tsc -p web/tsconfig.json",
     "test": "vitest run --passWithNoTests",
-    "test:contratos": "node infra/scripts/lint-contratos.mjs && vitest run --passWithNoTests contrato",
+    "test:contratos": "node infra/scripts/probar-contratos.ts",
     "e2e": "vitest run --passWithNoTests --config tests/e2e/vitest.config.ts",
     "e2e:web": "npm run e2e -w web",
     "nuevo-servicio": "node infra/scripts/nuevo-servicio.ts",
